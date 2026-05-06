@@ -4,6 +4,12 @@ from fastapi import FastAPI, Request, Response
 
 app = FastAPI()
 
+@app.get("/")
+async def root():
+    return {"status": "online"}
+
+@app.get("/api/webhook")
+async def verify(request: Request):
 # Deze variabelen haalt hij nu uit jouw Vercel instellingen
 WHATSAPP_TOKEN = os.getenv("WHATSAPP_TOKEN")
 PHONE_NUMBER_ID = os.getenv("PHONE_NUMBER_ID")
@@ -166,3 +172,4 @@ def send_whatsapp(to, text):
         "text": {"body": text}
     }
     requests.post(url, json=payload, headers=headers)
+handler = app
